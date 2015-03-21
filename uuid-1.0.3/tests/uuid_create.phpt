@@ -1,7 +1,7 @@
 --TEST--
 uuid_create() function
 --SKIPIF--
-<?php 
+<?php
 
 if(!extension_loaded('uuid')) die('skip ');
 
@@ -10,7 +10,7 @@ if(!extension_loaded('uuid')) die('skip ');
 <?php
         // check basic format of generated UUIDs
         $uuid = uuid_create();
-        if (ereg("[[:xdigit:]]{8}-[[:xdigit:]]{4}-[[:xdigit:]]{4}-[[:xdigit:]]{4}-[[:xdigit:]]{12}", $uuid)) {
+        if (preg_match("/[[:xdigit:]]{8}-[[:xdigit:]]{4}-[[:xdigit:]]{4}-[[:xdigit:]]{4}-[[:xdigit:]]{12}/", $uuid)) {
                 echo "basic format ok\n";
         } else {
                 echo "basic UUID format check failed, generated UUID was $uuid\n";
