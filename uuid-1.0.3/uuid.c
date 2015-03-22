@@ -140,13 +140,12 @@ PHP_MINFO_FUNCTION(uuid)
 PHP_FUNCTION(uuid_create)
 {
     long uuid_type = 0;
+    uuid_t uuid;
+    char uuid_str[37];
 
     if (ZEND_PARSE_PARAM(ZEND_NUM_ARGS(), "|l", &uuid_type) == FAILURE) {
         return;
     }
-
-    uuid_t uuid;
-    char uuid_str[37];
 
     switch(uuid_type) {
         case UUID_TYPE_DCE_TIME:

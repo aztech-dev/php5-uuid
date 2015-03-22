@@ -87,12 +87,12 @@ PHP_MINFO_FUNCTION(uuid);
 
 #if (PHP_MAJOR_VERSION < 7)
 typedef size_t arg_str_len;
-#define ZEND_PARSE_PARAM(num_args, type_spec, ...) (zend_parse_parameters(num_args TSRMLS_DC, type_spec, __VA_ARGS__))
+#define ZEND_PARSE_PARAM(num_args, type_spec, ...) zend_parse_parameters(num_args TSRMLS_CC, type_spec, __VA_ARGS__)
 #define RET_STR(str) RETURN_STRING(str, 1)
 #define RET_STRL(str, len) RETURN_STRINGL(str, len, 1)
 #else
 typedef int arg_str_len;
-#define ZEND_PARSE_PARAM(num_args, type_spec, ...) (zend_parse_parameters(num_args, type_spec, __VA_ARGS__))
+#define ZEND_PARSE_PARAM(num_args, type_spec, ...) zend_parse_parameters(num_args, type_spec, __VA_ARGS__)
 #define RET_STR(str) RETURN_STRING(str)
 #define RET_STRL(str, len) RETURN_STRINGL(str, len)
 #endif
