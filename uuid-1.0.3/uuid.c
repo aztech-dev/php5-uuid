@@ -48,18 +48,6 @@ zend_function_entry uuid_functions[] = {
 };
 /* }}} */
 
-#if PHP_VERSION_ID < 70000
-typedef size_t arg_str_len;
-#define PARSE_PARAM(num_args, type_spec, ...) zend_parse_parameters(num_args TSRMLS_DC, type_spec, __VA_ARGS__)
-#define RET_STR(str) RETURN_STRING(str, 1)
-#define RET_STRL(str, len) RETURN_STRINGL(str, len, 1)
-#else
-typedef int arg_str_len;
-#define PARSE_PARAM(num_args, type_spec, ...) zend_parse_parameters(num_args, type_spec, __VA_ARGS__)
-#define RET_STR(str) RETURN_STRING(str)
-#define RET_STRL(str, len) RETURN_STRINGL(str, len)
-#endif
-
 /* {{{ uuid_module_entry
  */
 zend_module_entry uuid_module_entry = {
@@ -153,7 +141,7 @@ PHP_FUNCTION(uuid_create)
 {
     long uuid_type = 0;
 
-    if (PARSE_PARAM(ZEND_NUM_ARGS(), "|l", &uuid_type) == FAILURE) {
+    if (ZEND_PARSE_PARAM(ZEND_NUM_ARGS(), "|l", &uuid_type) == FAILURE) {
         return;
     }
 
@@ -173,7 +161,7 @@ PHP_FUNCTION(uuid_create)
         default:
         php_error_docref(NULL,
                 E_WARNING,
-                "Unknown/invalid UUID type '%d' requested, using default type instead",
+                "Unknown/invalid UUID type '%ld' requested, using default type instead",
                 uuid_type);
         uuid_generate(uuid);
         break;
@@ -193,7 +181,7 @@ PHP_FUNCTION(uuid_is_valid)
     arg_str_len uuid_len;
     uuid_t u;
 
-    if (PARSE_PARAM(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
+    if (ZEND_PARSE_PARAM(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
         return;
     }
 
@@ -211,7 +199,7 @@ PHP_FUNCTION(uuid_compare)
     arg_str_len uuid2_len = 0;
     uuid_t u1, u2;
 
-    if (PARSE_PARAM(ZEND_NUM_ARGS(), "ss", &uuid1, &uuid1_len, &uuid2, &uuid2_len) == FAILURE) {
+    if (ZEND_PARSE_PARAM(ZEND_NUM_ARGS(), "ss", &uuid1, &uuid1_len, &uuid2, &uuid2_len) == FAILURE) {
         return;
     }
 
@@ -231,7 +219,7 @@ PHP_FUNCTION(uuid_is_null)
     arg_str_len uuid_len = 0;
     uuid_t u;
 
-    if (PARSE_PARAM(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
+    if (ZEND_PARSE_PARAM(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
         return;
     }
 
@@ -252,7 +240,7 @@ PHP_FUNCTION(uuid_type)
     arg_str_len uuid_len = 0;
     uuid_t u;
 
-    if (PARSE_PARAM(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
+    if (ZEND_PARSE_PARAM(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
         return;
     }
 
@@ -279,7 +267,7 @@ PHP_FUNCTION(uuid_variant)
     arg_str_len uuid_len = 0;
     uuid_t u;
 
-    if (PARSE_PARAM(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
+    if (ZEND_PARSE_PARAM(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
         return;
     }
 
@@ -305,7 +293,7 @@ PHP_FUNCTION(uuid_time)
     arg_str_len uuid_len = 0;
     uuid_t u;
 
-    if (PARSE_PARAM(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
+    if (ZEND_PARSE_PARAM(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
         return;
     }
 
@@ -338,7 +326,7 @@ PHP_FUNCTION(uuid_mac)
     uuid_t u;
     char uuid_str[37];
 
-    if (PARSE_PARAM(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
+    if (ZEND_PARSE_PARAM(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
         return;
     }
 
@@ -376,7 +364,7 @@ PHP_FUNCTION(uuid_parse)
     arg_str_len uuid_len = 0;
     uuid_t uuid_bin;
 
-    if (PARSE_PARAM(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
+    if (ZEND_PARSE_PARAM(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
         return;
     }
 
@@ -396,7 +384,7 @@ PHP_FUNCTION(uuid_unparse)
     arg_str_len uuid_len = 0;
     char uuid_txt[37];
 
-    if (PARSE_PARAM(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
+    if (ZEND_PARSE_PARAM(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
         return;
     }
 

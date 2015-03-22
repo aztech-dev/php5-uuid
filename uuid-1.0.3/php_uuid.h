@@ -3,16 +3,16 @@
    | This library is free software; you can redistribute it and/or        |
    | modify it under the terms of the GNU Lesser General Public           |
    | License as published by the Free Software Foundation; either         |
-   | version 2.1 of the License, or (at your option) any later version.   | 
+   | version 2.1 of the License, or (at your option) any later version.   |
    |                                                                      |
    | This library is distributed in the hope that it will be useful,      |
    | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU    |
-   | Lesser General Public License for more details.                      | 
+   | Lesser General Public License for more details.                      |
    |                                                                      |
    | You should have received a copy of the GNU Lesser General Public     |
    | License in the file LICENSE along with this library;                 |
-   | if not, write to the                                                 | 
+   | if not, write to the                                                 |
    |                                                                      |
    |   Free Software Foundation, Inc.,                                    |
    |   59 Temple Place, Suite 330,                                        |
@@ -22,7 +22,7 @@
    +----------------------------------------------------------------------+
 */
 
-/* $ Id: $ */ 
+/* $ Id: $ */
 
 #ifndef PHP_UUID_H
 #define PHP_UUID_H
@@ -46,7 +46,7 @@ extern "C" {
 #include <ext/standard/info.h>
 #include <Zend/zend_extensions.h>
 #ifdef  __cplusplus
-} // extern "C" 
+} // extern "C"
 #endif
 #include <uuid/uuid.h>
 #ifdef  __cplusplus
@@ -84,6 +84,18 @@ PHP_MINFO_FUNCTION(uuid);
 #define PROP_GET_STRLEN(name)    Z_STRLEN_P(zend_read_property(_this_ce, _this_zval, #name, strlen(#name), 1 TSRMLS_CC))
 #define PROP_SET_STRING(name, s) zend_update_property_string(_this_ce, _this_zval, #name, strlen(#name), s TSRMLS_CC)
 #define PROP_SET_STRINGL(name, s, l) zend_update_property_stringl(_this_ce, _this_zval, #name, strlen(#name), s, l TSRMLS_CC)
+
+#if (PHP_MAJOR_VERSION < 7)
+typedef size_t arg_str_len;
+#define ZEND_PARSE_PARAM(num_args, type_spec, ...) (zend_parse_parameters(num_args TSRMLS_DC, type_spec, __VA_ARGS__))
+#define RET_STR(str) RETURN_STRING(str, 1)
+#define RET_STRL(str, len) RETURN_STRINGL(str, len, 1)
+#else
+typedef int arg_str_len;
+#define ZEND_PARSE_PARAM(num_args, type_spec, ...) (zend_parse_parameters(num_args, type_spec, __VA_ARGS__))
+#define RET_STR(str) RETURN_STRING(str)
+#define RET_STRL(str, len) RETURN_STRINGL(str, len)
+#endif
 
 
 PHP_FUNCTION(uuid_create);
@@ -182,7 +194,7 @@ ZEND_END_ARG_INFO()
 #endif
 
 #ifdef  __cplusplus
-} // extern "C" 
+} // extern "C"
 #endif
 
 /* mirrored PHP Constants */
