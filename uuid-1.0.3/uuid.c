@@ -49,11 +49,13 @@ zend_function_entry uuid_functions[] = {
 /* }}} */
 
 #if PHP_VERSION_ID < 70000
-#define RETSTR(str) (RETURN_STRING(str, 1));
-#define RETSTRL(str, len) (RETURN_STRINGL(str, len, 1));
+typedef size_t arg_str_len;
+#define RET_STR(str) (RETURN_STRING(str, 1));
+#define RET_STRL(str, len) (RETURN_STRINGL(str, len, 1));
 #else
-#define RETSTR(str) (RETURN_STRING(str));
-#define RETSTRL(str, len) (RETURN_STRINGL(str, len));
+typedef int arg_str_len;
+#define RET_STR(str) (RETURN_STRING(str));
+#define RET_STRL(str, len) (RETURN_STRINGL(str, len));
 #endif
 
 /* {{{ uuid_module_entry
@@ -177,7 +179,7 @@ PHP_FUNCTION(uuid_create)
 
     uuid_unparse(uuid, uuid_str);
 
-    RETSTR(uuid_str);
+    RET_STR(uuid_str);
 }
 /* }}} uuid_create */
 
@@ -186,7 +188,7 @@ PHP_FUNCTION(uuid_create)
 PHP_FUNCTION(uuid_is_valid)
 {
     const char * uuid = NULL;
-    size_t uuid_len;
+    arg_str_len uuid_len;
     uuid_t u;
 
     if (zend_parse_parameters(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
@@ -202,9 +204,9 @@ PHP_FUNCTION(uuid_is_valid)
 PHP_FUNCTION(uuid_compare)
 {
     const char * uuid1 = NULL;
-    size_t uuid1_len = 0;
+    arg_str_len uuid1_len = 0;
     const char * uuid2 = NULL;
-    size_t uuid2_len = 0;
+    arg_str_len uuid2_len = 0;
     uuid_t u1, u2;
 
     if (zend_parse_parameters(ZEND_NUM_ARGS(), "ss", &uuid1, &uuid1_len, &uuid2, &uuid2_len) == FAILURE) {
@@ -224,7 +226,7 @@ PHP_FUNCTION(uuid_compare)
 PHP_FUNCTION(uuid_is_null)
 {
     const char * uuid = NULL;
-    size_t uuid_len = 0;
+    arg_str_len uuid_len = 0;
     uuid_t u;
 
     if (zend_parse_parameters(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
@@ -245,7 +247,7 @@ PHP_FUNCTION(uuid_is_null)
 PHP_FUNCTION(uuid_type)
 {
     const char * uuid = NULL;
-    size_t uuid_len = 0;
+    arg_str_len uuid_len = 0;
     uuid_t u;
 
     if (zend_parse_parameters(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
@@ -272,7 +274,7 @@ PHP_FUNCTION(uuid_type)
 PHP_FUNCTION(uuid_variant)
 {
     const char * uuid = NULL;
-    size_t uuid_len = 0;
+    arg_str_len uuid_len = 0;
     uuid_t u;
 
     if (zend_parse_parameters(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
@@ -298,7 +300,7 @@ PHP_FUNCTION(uuid_variant)
 PHP_FUNCTION(uuid_time)
 {
     const char * uuid = NULL;
-    size_t uuid_len = 0;
+    arg_str_len uuid_len = 0;
     uuid_t u;
 
     if (zend_parse_parameters(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
@@ -330,7 +332,7 @@ PHP_FUNCTION(uuid_time)
 PHP_FUNCTION(uuid_mac)
 {
     const char * uuid = NULL;
-    size_t uuid_len = 0;
+    arg_str_len uuid_len = 0;
     uuid_t u;
     char uuid_str[37];
 
@@ -360,7 +362,7 @@ PHP_FUNCTION(uuid_mac)
 
     uuid_unparse(u, uuid_str);
 
-    RETSTR((char *)(uuid_str + 24));
+    RET_STR((char *)(uuid_str + 24));
 }
 /* }}} uuid_mac */
 
@@ -369,7 +371,7 @@ PHP_FUNCTION(uuid_mac)
 PHP_FUNCTION(uuid_parse)
 {
     const char * uuid = NULL;
-    size_t uuid_len = 0;
+    arg_str_len uuid_len = 0;
     uuid_t uuid_bin;
 
     if (zend_parse_parameters(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
@@ -380,7 +382,7 @@ PHP_FUNCTION(uuid_parse)
         RETURN_FALSE;
     }
 
-    RETSTRL((char *)uuid_bin, sizeof(uuid_t));
+    RET_STRL((char *)uuid_bin, sizeof(uuid_t));
 }
 /* }}} uuid_parse */
 
@@ -389,7 +391,7 @@ PHP_FUNCTION(uuid_parse)
 PHP_FUNCTION(uuid_unparse)
 {
     const char * uuid = NULL;
-    size_t uuid_len = 0;
+    arg_str_len uuid_len = 0;
     char uuid_txt[37];
 
     if (zend_parse_parameters(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
@@ -402,7 +404,7 @@ PHP_FUNCTION(uuid_unparse)
 
     uuid_unparse((unsigned char *)uuid, uuid_txt);
 
-    RETSTRL(uuid_txt, 36);
+    RET_STRL(uuid_txt, 36);
 }
 /* }}} uuid_unparse */
 
