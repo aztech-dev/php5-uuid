@@ -86,12 +86,10 @@ PHP_MINFO_FUNCTION(uuid);
 #define PROP_SET_STRINGL(name, s, l) zend_update_property_stringl(_this_ce, _this_zval, #name, strlen(#name), s, l TSRMLS_CC)
 
 #if (PHP_MAJOR_VERSION < 7)
-typedef size_t arg_str_len;
 #define ZEND_PARSE_PARAM(num_args, type_spec, ...) zend_parse_parameters(num_args TSRMLS_CC, type_spec, __VA_ARGS__)
 #define RET_STR(str) RETURN_STRING(str, 1)
 #define RET_STRL(str, len) RETURN_STRINGL(str, len, 1)
 #else
-typedef int arg_str_len;
 #define ZEND_PARSE_PARAM(num_args, type_spec, ...) zend_parse_parameters(num_args, type_spec, __VA_ARGS__)
 #define RET_STR(str) RETURN_STRING(str)
 #define RET_STRL(str, len) RETURN_STRINGL(str, len)

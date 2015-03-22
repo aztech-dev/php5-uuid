@@ -177,7 +177,7 @@ PHP_FUNCTION(uuid_create)
 PHP_FUNCTION(uuid_is_valid)
 {
     const char * uuid = NULL;
-    arg_str_len uuid_len;
+    int uuid_len;
     uuid_t u;
 
     if (ZEND_PARSE_PARAM(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
@@ -193,9 +193,9 @@ PHP_FUNCTION(uuid_is_valid)
 PHP_FUNCTION(uuid_compare)
 {
     const char * uuid1 = NULL;
-    arg_str_len uuid1_len = 0;
+    int uuid1_len = 0;
     const char * uuid2 = NULL;
-    arg_str_len uuid2_len = 0;
+    int uuid2_len = 0;
     uuid_t u1, u2;
 
     if (ZEND_PARSE_PARAM(ZEND_NUM_ARGS(), "ss", &uuid1, &uuid1_len, &uuid2, &uuid2_len) == FAILURE) {
@@ -215,7 +215,7 @@ PHP_FUNCTION(uuid_compare)
 PHP_FUNCTION(uuid_is_null)
 {
     const char * uuid = NULL;
-    arg_str_len uuid_len = 0;
+    int uuid_len = 0;
     uuid_t u;
 
     if (ZEND_PARSE_PARAM(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
@@ -236,7 +236,7 @@ PHP_FUNCTION(uuid_is_null)
 PHP_FUNCTION(uuid_type)
 {
     const char * uuid = NULL;
-    arg_str_len uuid_len = 0;
+    int uuid_len = 0;
     uuid_t u;
 
     if (ZEND_PARSE_PARAM(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
@@ -263,7 +263,7 @@ PHP_FUNCTION(uuid_type)
 PHP_FUNCTION(uuid_variant)
 {
     const char * uuid = NULL;
-    arg_str_len uuid_len = 0;
+    int uuid_len = 0;
     uuid_t u;
 
     if (ZEND_PARSE_PARAM(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
@@ -289,7 +289,7 @@ PHP_FUNCTION(uuid_variant)
 PHP_FUNCTION(uuid_time)
 {
     const char * uuid = NULL;
-    arg_str_len uuid_len = 0;
+    int uuid_len = 0;
     uuid_t u;
 
     if (ZEND_PARSE_PARAM(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
@@ -321,7 +321,7 @@ PHP_FUNCTION(uuid_time)
 PHP_FUNCTION(uuid_mac)
 {
     const char * uuid = NULL;
-    arg_str_len uuid_len = 0;
+    int uuid_len = 0;
     uuid_t u;
     char uuid_str[37];
 
@@ -360,7 +360,7 @@ PHP_FUNCTION(uuid_mac)
 PHP_FUNCTION(uuid_parse)
 {
     const char * uuid = NULL;
-    arg_str_len uuid_len = 0;
+    int uuid_len = 0;
     uuid_t uuid_bin;
 
     if (ZEND_PARSE_PARAM(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
@@ -380,7 +380,7 @@ PHP_FUNCTION(uuid_parse)
 PHP_FUNCTION(uuid_unparse)
 {
     const char * uuid = NULL;
-    arg_str_len uuid_len = 0;
+    int uuid_len = 0;
     char uuid_txt[37];
 
     if (ZEND_PARSE_PARAM(ZEND_NUM_ARGS(), "s", &uuid, &uuid_len) == FAILURE) {
